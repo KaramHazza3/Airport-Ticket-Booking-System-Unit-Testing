@@ -1,0 +1,118 @@
+[
+  {
+    "Id": "7724baba-1916-4d37-8e8d-6d5d308aa9fc",
+    "Passenger": {
+      "Id": "df19ab8c-c64c-413a-979b-8554cde73a8c",
+      "Name": "Amr",
+      "Email": "Amr@gmail.com",
+      "Password": "Amr@123",
+      "Role": 1
+    },
+    "Flight": {
+      "Id": "7c9f5f13-1057-4f1c-a0c7-7e3a5ad92cba",
+      "BasePrice": 380,
+      "Departure": {
+        "Id": "b1d98f5a-35a9-4034-8c91-21fa13081407",
+        "Name": "South Korea",
+        "Code": ""
+      },
+      "Destination": {
+        "Id": "f8848809-0ea9-4373-b8ff-6532f686ff81",
+        "Name": "Thailand",
+        "Code": ""
+      },
+      "DepartureAirport": {
+        "Id": "ac25594e-2efa-4ddb-a7bb-d404a8feda06",
+        "Name": "Incheon Intl",
+        "Country": {
+          "Id": "b1d98f5a-35a9-4034-8c91-21fa13081407",
+          "Name": "South Korea",
+          "Code": ""
+        }
+      },
+      "ArrivalAirport": {
+        "Id": "f6ac3af7-36a6-42c9-b214-0516f64ef1d5",
+        "Name": "Suvarnabhumi Airport",
+        "Country": {
+          "Id": "f8848809-0ea9-4373-b8ff-6532f686ff81",
+          "Name": "Thailand",
+          "Code": ""
+        }
+      },
+      "DepartureDate": "2026-01-18T17:20:00",
+      "AvailableClasses": [
+        {
+          "ClassType": 0,
+          "AvailableSeats": 59,
+          "Price": 380
+        },
+        {
+          "ClassType": 1,
+          "AvailableSeats": 46,
+          "Price": 750
+        }
+      ]
+    },
+    "FlightClass": 0,
+    "BookingDate": "2025-09-01T16:07:58.1582681Z",
+    "Price": 750
+  },
+  {
+    "Id": "d55ad254-89e4-46cd-ac83-40a49ec62765",
+    "Passenger": {
+      "Id": "1f4c68c3-0781-4f00-8132-67f3537b93af",
+      "Name": "Mohammad Qzih",
+      "Email": "Qzih@gmail.com",
+      "Password": "Qzih@123",
+      "Role": 1
+    },
+    "Flight": {
+      "Id": "7c9f5f13-1057-4f1c-a0c7-7e3a5ad92cba",
+      "BasePrice": 380,
+      "Departure": {
+        "Id": "b1d98f5a-35a9-4034-8c91-21fa13081407",
+        "Name": "South Korea",
+        "Code": ""
+      },
+      "Destination": {
+        "Id": "f8848809-0ea9-4373-b8ff-6532f686ff81",
+        "Name": "Thailand",
+        "Code": ""
+      },
+      "DepartureAirport": {
+        "Id": "ac25594e-2efa-4ddb-a7bb-d404a8feda06",
+        "Name": "Incheon Intl",
+        "Country": {
+          "Id": "b1d98f5a-35a9-4034-8c91-21fa13081407",
+          "Name": "South Korea",
+          "Code": ""
+        }
+      },
+      "ArrivalAirport": {
+        "Id": "f6ac3af7-36a6-42c9-b214-0516f64ef1d5",
+        "Name": "Suvarnabhumi Airport",
+        "Country": {
+          "Id": "f8848809-0ea9-4373-b8ff-6532f686ff81",
+          "Name": "Thailand",
+          "Code": ""
+        }
+      },
+      "DepartureDate": "2026-01-18T17:20:00",
+      "AvailableClasses": [
+        {
+          "ClassType": 0,
+          "AvailableSeats": 58,
+          "Price": 380
+        },
+        {
+          "ClassType": 1,
+          "AvailableSeats": 46,
+          "Price": 750
+        }
+      ]
+    },
+    "FlightClass": 0,
+    "BookingDate": "2025-09-01T16:07:58.1490984Z",
+    "Price": 380
+  }
+]

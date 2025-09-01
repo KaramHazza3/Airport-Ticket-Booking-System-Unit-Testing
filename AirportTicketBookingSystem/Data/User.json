@@ -1,0 +1,23 @@
+[
+  {
+    "Id": "9a86e2a0-d977-4d3f-b7dc-8b2495b936b4",
+    "Name": "Karam",
+    "Email": "Karam@gmail.com",
+    "Password": "Karam@123",
+    "Role": 2
+  },
+  {
+    "Id": "df19ab8c-c64c-413a-979b-8554cde73a8c",
+    "Name": "Amr",
+    "Email": "Amr@gmail.com",
+    "Password": "Amr@123",
+    "Role": 1
+  },
+  {
+    "Id": "1f4c68c3-0781-4f00-8132-67f3537b93af",
+    "Name": "Mohammad Qzih",
+    "Email": "Qzih@gmail.com",
+    "Password": "Qzih@123",
+    "Role": 1
+  }
+]
