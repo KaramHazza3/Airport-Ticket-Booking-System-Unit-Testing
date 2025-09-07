@@ -1,18 +1,25 @@
 ﻿using System.Text.Json;
+using AirportTicketBookingSystem.Models;
+using AirportTicketBookingSystem.Wrappers.File;
 
 namespace AirportTicketBookingSystem.Repositories;
 
 public class FileRepository : IRepository
 {
+    private static IFileWrapper _fileWrapper;
     static FileRepository()
     {
         RootPath = FindProjectPath();
     }
-    private FileRepository() {}
+
+    private FileRepository(IFileWrapper fileWrapper)
+    {
+        _fileWrapper = fileWrapper;
+    }
     private static FileRepository? _instance;
     private static readonly JsonSerializerOptions Options = new(){ WriteIndented = true };
 
-    public static FileRepository Instance => _instance ??= new FileRepository();
+    public static FileRepository Instance => _instance ??= new FileRepository(new FileWrapper());
 
     private static readonly string RootPath;
     
@@ -34,43 +41,22 @@ public class FileRepository : IRepository
         await WriteCollectionToFileAsync(data, filePath);
     }
 
-    // public async Task DeleteAsync<T>(T[] data) where T : class
-    // {
-    //     var collectionName = typeof(T).Name;
-    //     var filePath = GetFilePath(collectionName);
-    //     var items = await GetFileContentAsList<T>(filePath);
-    //     var index = items.FindIndex(item => item.Equals(data));
-    //     items.RemoveAt(index);
-    //     await WriteCollectionToFileAsync(items, filePath);
-    // }
-    //
-    // public async Task<T> UpdateAsync<T>(T[] data) where T : class
-    // {
-    //     var collectionName = typeof(T).Name;
-    //     var filePath = GetFilePath(collectionName);
-    //     var items = await GetFileContentAsList<T>(filePath);
-    //     var index = items.FindIndex(item => item.Equals(data));
-    //     items[index] = data;
-    //     await WriteCollectionToFileAsync(items, filePath);
-    //     return data;
-    // }
-
     private static async Task<List<T>> GetFileContentAsList<T>(string filePath)
     {
-        var fileContent = await File.ReadAllTextAsync(filePath);
+        var fileContent = await _fileWrapper.ReadAllTextAsync(filePath);
         return JsonSerializer.Deserialize<List<T>>(fileContent) ?? [];
     }
 
     private static async Task WriteCollectionToFileAsync<T>(ICollection<T> items, string filePath)
     {
         var json = JsonSerializer.Serialize(items, Options);
-        await File.WriteAllTextAsync(filePath, json);
+        await _fileWrapper.WriteAllTextAsync(filePath, json);
     }
     private static async Task CreateFileIfDoesNotExist(string filePath)
     {
-        if (File.Exists(filePath)) return;
+        if (_fileWrapper.Exists(filePath)) return;
         Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
-        await File.WriteAllTextAsync(filePath, "[]");
+        await _fileWrapper.WriteAllTextAsync(filePath, "[]");
     }
     private static string FindProjectPath()
     {
@@ -90,7 +76,7 @@ public class FileRepository : IRepository
     private static async Task<ICollection<T>> ReadAsCollectionFromFileAsync<T>(string filePath)
     where T : class
     {
-        var fileContent = await File.ReadAllTextAsync(filePath);
+        var fileContent = await _fileWrapper.ReadAllTextAsync(filePath);
         var serializedContent = JsonSerializer.Deserialize<List<T>>(fileContent);
         return serializedContent ?? [];
     }

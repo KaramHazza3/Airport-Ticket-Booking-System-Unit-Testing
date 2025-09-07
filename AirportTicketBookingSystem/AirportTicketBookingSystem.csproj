@@ -11,4 +11,8 @@
       <PackageReference Include="CsvHelper" Version="33.1.0" />
     </ItemGroup>
 
+    <ItemGroup>
+        <InternalsVisibleTo Include="AirportTicketBookingSystem.Tests" />
+    </ItemGroup>
+
 </Project>

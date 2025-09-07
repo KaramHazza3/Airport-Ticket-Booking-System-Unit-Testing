@@ -29,6 +29,12 @@ public class BookingService : IBookingService<Guid>
         {
             return BookingErrors.AlreadyExists;
         }
+
+        if (booking.BookingDate < DateTime.UtcNow)
+        {
+            return BookingErrors.NotValid;
+        }
+        
         bookings.Add(booking);
         await this._repository.WriteAsync(bookings);
         _bookings.Clear();

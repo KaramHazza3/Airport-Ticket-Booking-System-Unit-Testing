@@ -12,4 +12,5 @@ public interface IFileImportService
         IBaseService<TEntity, TId> baseService,
         Func<TDto, int, List<CsvValidationError>> validator)
         where TEntity : IEntity<TId>;
+    
 }

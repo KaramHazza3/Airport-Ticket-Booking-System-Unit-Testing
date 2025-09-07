@@ -28,7 +28,13 @@ public class FlightService : IFlightService<Guid>
         if (isExist)
         {
             return FlightErrors.AlreadyExists;
-        } 
+        }
+
+        if (flight.DepartureDate < DateTime.UtcNow)
+        {
+            return FlightErrors.NotValid;
+        }
+        
         flights.Add(flight);
         await this._repository.WriteAsync(flights);
         _flights.Clear();

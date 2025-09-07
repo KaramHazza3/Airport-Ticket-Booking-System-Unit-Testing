@@ -2,6 +2,7 @@
 using AirportTicketBookingSystem.Common.Models;
 using AirportTicketBookingSystem.Common.Services;
 using AirportTicketBookingSystem.Common.Validators.CsvValidators.Models;
+using AirportTicketBookingSystem.Wrappers;
 using CsvHelper;
 using CsvHelper.Configuration;
 
@@ -9,6 +10,12 @@ namespace AirportTicketBookingSystem.Services.ImportFileService;
 
 public class ImportCsvFileService : IFileImportService
 {
+    private readonly ICSVReader _csvReader;
+
+    public ImportCsvFileService(ICSVReader csvReader)
+    {
+        _csvReader = csvReader;
+    }
     public async Task<Result<List<TEntity>>> ImportFileAsync<TEntity, TDto, TId>(
         string filePath,
         Func<TDto, TEntity> mapper,
@@ -19,32 +26,9 @@ public class ImportCsvFileService : IFileImportService
         if (string.IsNullOrWhiteSpace(filePath))
             return Result<List<TEntity>>.Failure(new Error("Csv.FilePath", "File path cannot be empty."));
 
-        var entities = new List<TEntity>();
-        var validationErrors = new List<CsvValidationError>();
-        var rowNumber = 2; 
-
         try
         {
-            using var reader = new StreamReader(filePath);
-            using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)
-            {
-                MissingFieldFound = null
-            });
-
-            await foreach (var dto in csv.GetRecordsAsync<TDto>())
-            {
-                var errors = validator(dto, rowNumber);
-                if (errors.Count == 0)
-                {
-                    entities.Add(mapper(dto));
-                }
-                else
-                {
-                    validationErrors.AddRange(errors);
-                }
-                rowNumber++;
-            }
-
+            var (entities, validationErrors) = await _csvReader.Read(filePath, mapper, validator);
             return await HandleAddition(baseService, validationErrors, entities);
         }
         catch (Exception ex)
@@ -59,7 +43,7 @@ public class ImportCsvFileService : IFileImportService
         if (validationErrors.Any())
         {
             var combinedMessage = string.Join("; ", validationErrors.Select(e => $"Row {e.RowNumber} {e.PropertyName}: {e.ErrorMessage}"));
-            var error = new Error("Csv.ValidationErrors", combinedMessage);
+            var error = new Error("Csv.ValidationError", combinedMessage);
             return error;
         }
 

@@ -5,6 +5,8 @@ using AirportTicketBookingSystem.Services.BookingService;
 using AirportTicketBookingSystem.Services.FlightService;
 using AirportTicketBookingSystem.Services.ImportFileService;
 using AirportTicketBookingSystem.Services.UserService;
+using AirportTicketBookingSystem.Wrappers;
+using CsvHelper;
 
 namespace AirportTicketBookingSystem;
 
@@ -13,7 +15,7 @@ class Program
     static void Main(string[] args)
     {
         IRepository fileRepo = FileRepository.Instance;
-        var importService = new ImportCsvFileService();
+        var importService = new ImportCsvFileService(new CSVReader());
         var userService = new UserService(fileRepo);
         var flightService = new FlightService(fileRepo);
         var bookingService = new BookingService(fileRepo);

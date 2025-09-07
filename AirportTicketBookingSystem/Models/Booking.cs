@@ -18,7 +18,7 @@ public class Booking : IEquatable<Booking>, IEntity<Guid>
 
     [Required]
     [Future] 
-    public DateTime BookingDate { get; } = DateTime.UtcNow;
+    public DateTime BookingDate { get; set; } = DateTime.UtcNow;
    
     [Required]
     [Range(0.01, double.MaxValue, ErrorMessage = "Must be greater than 0")]
