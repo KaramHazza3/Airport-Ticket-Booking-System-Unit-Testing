@@ -1,0 +1,282 @@
+[
+  {
+    "Id": "8f23bd1a-43be-49e1-9a3f-90c48c3f2caa",
+    "BasePrice": 450,
+    "Departure": {
+      "Id": "69d0d554-e45d-418e-857a-0ed6c6d15cb9",
+      "Name": "France",
+      "Code": ""
+    },
+    "Destination": {
+      "Id": "cc028092-3c0b-41c6-830e-343bdec7829b",
+      "Name": "Japan",
+      "Code": ""
+    },
+    "DepartureAirport": {
+      "Id": "d011c695-73b7-45bd-b800-a68664345233",
+      "Name": "Charles de Gaulle",
+      "Country": {
+        "Id": "69d0d554-e45d-418e-857a-0ed6c6d15cb9",
+        "Name": "France",
+        "Code": ""
+      }
+    },
+    "ArrivalAirport": {
+      "Id": "33e9d6fb-2cb6-4a9a-9c0d-9c2168580f69",
+      "Name": "Narita International",
+      "Country": {
+        "Id": "cc028092-3c0b-41c6-830e-343bdec7829b",
+        "Name": "Japan",
+        "Code": ""
+      }
+    },
+    "DepartureDate": "2025-09-20T14:30:00",
+    "AvailableClasses": [
+      {
+        "ClassType": 0,
+        "AvailableSeats": 100,
+        "Price": 450
+      },
+      {
+        "ClassType": 1,
+        "AvailableSeats": 40,
+        "Price": 900
+      },
+      {
+        "ClassType": 2,
+        "AvailableSeats": 20,
+        "Price": 1500
+      }
+    ]
+  },
+  {
+    "Id": "b19ae8d2-2a1c-4a3a-9422-c9c879122dab",
+    "BasePrice": 320,
+    "Departure": {
+      "Id": "22e925d7-cabc-4917-8615-bcea06d6bcc4",
+      "Name": "USA",
+      "Code": ""
+    },
+    "Destination": {
+      "Id": "5c3f68d9-d9a1-44be-9342-8247789eab66",
+      "Name": "Canada",
+      "Code": ""
+    },
+    "DepartureAirport": {
+      "Id": "59f4026f-9799-4066-ba02-06e1eed6ae93",
+      "Name": "JFK International",
+      "Country": {
+        "Id": "22e925d7-cabc-4917-8615-bcea06d6bcc4",
+        "Name": "USA",
+        "Code": ""
+      }
+    },
+    "ArrivalAirport": {
+      "Id": "f494de82-f001-41c5-ac96-eecb7953f1f5",
+      "Name": "Toronto Pearson",
+      "Country": {
+        "Id": "5c3f68d9-d9a1-44be-9342-8247789eab66",
+        "Name": "Canada",
+        "Code": ""
+      }
+    },
+    "DepartureDate": "2025-09-15T09:00:00",
+    "AvailableClasses": [
+      {
+        "ClassType": 0,
+        "AvailableSeats": 80,
+        "Price": 320
+      },
+      {
+        "ClassType": 1,
+        "AvailableSeats": 40,
+        "Price": 650
+      }
+    ]
+  },
+  {
+    "Id": "3c1b9d1f-80dc-46c6-8f8e-7f49a1eb6c4c",
+    "BasePrice": 280,
+    "Departure": {
+      "Id": "9b76b4bb-bb55-4f63-bd76-2ad80a7a354e",
+      "Name": "Germany",
+      "Code": ""
+    },
+    "Destination": {
+      "Id": "5d6efbc1-b3f7-4665-877e-84b3ccc6e31c",
+      "Name": "Italy",
+      "Code": ""
+    },
+    "DepartureAirport": {
+      "Id": "6c466cef-a1ed-45e3-a012-db927e2de632",
+      "Name": "Frankfurt Airport",
+      "Country": {
+        "Id": "9b76b4bb-bb55-4f63-bd76-2ad80a7a354e",
+        "Name": "Germany",
+        "Code": ""
+      }
+    },
+    "ArrivalAirport": {
+      "Id": "2bccb8b4-a07e-4ce8-96c8-cc0ba06b1310",
+      "Name": "Leonardo da Vinci Intl",
+      "Country": {
+        "Id": "5d6efbc1-b3f7-4665-877e-84b3ccc6e31c",
+        "Name": "Italy",
+        "Code": ""
+      }
+    },
+    "DepartureDate": "2025-10-05T11:15:00",
+    "AvailableClasses": [
+      {
+        "ClassType": 0,
+        "AvailableSeats": 70,
+        "Price": 280
+      },
+      {
+        "ClassType": 1,
+        "AvailableSeats": 20,
+        "Price": 560
+      }
+    ]
+  },
+  {
+    "Id": "e21a3cb4-94ef-40d3-aec2-4d4f3dfef3aa",
+    "BasePrice": 600,
+    "Departure": {
+      "Id": "8c58a4ed-9655-494b-9291-ac2d4917d193",
+      "Name": "UAE",
+      "Code": ""
+    },
+    "Destination": {
+      "Id": "1304e88f-9384-41da-8c62-5869d09c075c",
+      "Name": "India",
+      "Code": ""
+    },
+    "DepartureAirport": {
+      "Id": "a2e19865-a5fb-47ba-9210-e3017e5913c7",
+      "Name": "Dubai Intl",
+      "Country": {
+        "Id": "8c58a4ed-9655-494b-9291-ac2d4917d193",
+        "Name": "UAE",
+        "Code": ""
+      }
+    },
+    "ArrivalAirport": {
+      "Id": "807320eb-cda1-4f20-b54e-a8f87d378336",
+      "Name": "Indira Gandhi Intl",
+      "Country": {
+        "Id": "1304e88f-9384-41da-8c62-5869d09c075c",
+        "Name": "India",
+        "Code": ""
+      }
+    },
+    "DepartureDate": "2025-11-01T06:45:00",
+    "AvailableClasses": [
+      {
+        "ClassType": 0,
+        "AvailableSeats": 120,
+        "Price": 600
+      },
+      {
+        "ClassType": 1,
+        "AvailableSeats": 40,
+        "Price": 1100
+      },
+      {
+        "ClassType": 2,
+        "AvailableSeats": 20,
+        "Price": 1800
+      }
+    ]
+  },
+  {
+    "Id": "2a5d86f9-8b6e-4f76-b2f0-71614e299f7e",
+    "BasePrice": 700,
+    "Departure": {
+      "Id": "35f900f8-d332-4167-b7fe-31182fbb3597",
+      "Name": "UK",
+      "Code": ""
+    },
+    "Destination": {
+      "Id": "42e2f61d-61fa-4f2d-9dac-ff0e5a882338",
+      "Name": "Australia",
+      "Code": ""
+    },
+    "DepartureAirport": {
+      "Id": "e79ead80-bc42-41e3-8c16-14b0b1a28577",
+      "Name": "Heathrow",
+      "Country": {
+        "Id": "35f900f8-d332-4167-b7fe-31182fbb3597",
+        "Name": "UK",
+        "Code": ""
+      }
+    },
+    "ArrivalAirport": {
+      "Id": "a512445c-19a6-4edc-9e5c-83f41ccf67e9",
+      "Name": "Sydney Kingsford Smith",
+      "Country": {
+        "Id": "42e2f61d-61fa-4f2d-9dac-ff0e5a882338",
+        "Name": "Australia",
+        "Code": ""
+      }
+    },
+    "DepartureDate": "2025-12-10T22:00:00",
+    "AvailableClasses": [
+      {
+        "ClassType": 0,
+        "AvailableSeats": 90,
+        "Price": 700
+      },
+      {
+        "ClassType": 1,
+        "AvailableSeats": 50,
+        "Price": 1300
+      }
+    ]
+  },
+  {
+    "Id": "7c9f5f13-1057-4f1c-a0c7-7e3a5ad92cba",
+    "BasePrice": 380,
+    "Departure": {
+      "Id": "b1d98f5a-35a9-4034-8c91-21fa13081407",
+      "Name": "South Korea",
+      "Code": ""
+    },
+    "Destination": {
+      "Id": "f8848809-0ea9-4373-b8ff-6532f686ff81",
+      "Name": "Thailand",
+      "Code": ""
+    },
+    "DepartureAirport": {
+      "Id": "ac25594e-2efa-4ddb-a7bb-d404a8feda06",
+      "Name": "Incheon Intl",
+      "Country": {
+        "Id": "b1d98f5a-35a9-4034-8c91-21fa13081407",
+        "Name": "South Korea",
+        "Code": ""
+      }
+    },
+    "ArrivalAirport": {
+      "Id": "f6ac3af7-36a6-42c9-b214-0516f64ef1d5",
+      "Name": "Suvarnabhumi Airport",
+      "Country": {
+        "Id": "f8848809-0ea9-4373-b8ff-6532f686ff81",
+        "Name": "Thailand",
+        "Code": ""
+      }
+    },
+    "DepartureDate": "2026-01-18T17:20:00",
+    "AvailableClasses": [
+      {
+        "ClassType": 0,
+        "AvailableSeats": 57,
+        "Price": 380
+      },
+      {
+        "ClassType": 1,
+        "AvailableSeats": 46,
+        "Price": 750
+      }
+    ]
+  }
+]

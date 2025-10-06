@@ -1,0 +1,7 @@
+Id,DepartureCountry,DepartureAirport,DestinationCountry,ArrivalAirport,DepartureDate,AvailableClasses
+8f23bd1a-43be-49e1-9a3f-90c48c3f2caa,France,Charles de Gaulle,Japan,Narita International,2025-09-20 14:30,"Economy:100:450;Business:40:900;FirstClass:20:1500"
+b19ae8d2-2a1c-4a3a-9422-c9c879122dab,USA,JFK International,Canada,Toronto Pearson,2025-09-15 09:00,"Economy:80:320;Business:40:650"
+3c1b9d1f-80dc-46c6-8f8e-7f49a1eb6c4c,Germany,Frankfurt Airport,Italy,Leonardo da Vinci Intl,2025-10-05 11:15,"Economy:70:280;Business:20:560"
+e21a3cb4-94ef-40d3-aec2-4d4f3dfef3aa,UAE,Dubai Intl,India,Indira Gandhi Intl,2025-11-01 06:45,"Economy:120:600;Business:40:1100;FirstClass:20:1800"
+2a5d86f9-8b6e-4f76-b2f0-71614e299f7e,UK,Heathrow,Australia,Sydney Kingsford Smith,2025-12-10 22:00,"Economy:90:700;Business:50:1300"
+7c9f5f13-1057-4f1c-a0c7-7e3a5ad92cba,South Korea,Incheon Intl,Thailand,Suvarnabhumi Airport,2026-01-18 17:20,"Economy:60:380;Business:40:750"

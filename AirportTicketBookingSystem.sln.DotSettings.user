@@ -1,0 +1,26 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ACsvReader_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E3_003Fresharper_002Dhost_003FSourcesCache_003Ff7b87edd534764eebf2388a77d49e5cd9c6d49eb6788dca9b1c07d4545412715_003FCsvReader_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=56569688_002D84aa_002D4488_002Dbc86_002Dd3b2646ceebc/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="AuthServiceTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::CC2D7075-F6D8-47C9-9F90-2AEDE2B63E9B::net9.0::AirportTicketBookingSystem.Tests.AuthServiceTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=cee20327_002D7f74_002D49ad_002D83bf_002D413c36b5ff85/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CreateSuccess_ShouldCreateSuccessfulResult" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::CC2D7075-F6D8-47C9-9F90-2AEDE2B63E9B::net9.0::AirportTicketBookingSystem.Tests.ResultTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::CC2D7075-F6D8-47C9-9F90-2AEDE2B63E9B::net9.0::AirportTicketBookingSystem.Tests.AuthServiceTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::CC2D7075-F6D8-47C9-9F90-2AEDE2B63E9B::net9.0::AirportTicketBookingSystem.Tests.UserServiceTests.GetAllUsersAsync_WhenThereIsUsers_ShouldReturnSuccessfulResult&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::CC2D7075-F6D8-47C9-9F90-2AEDE2B63E9B::net9.0::AirportTicketBookingSystem.Tests.UserServiceTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::CC2D7075-F6D8-47C9-9F90-2AEDE2B63E9B::net9.0::AirportTicketBookingSystem.Tests.ImportFileServiceTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::CC2D7075-F6D8-47C9-9F90-2AEDE2B63E9B::net9.0::AirportTicketBookingSystem.Tests.Services.FlightServiceTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::CC2D7075-F6D8-47C9-9F90-2AEDE2B63E9B::net9.0::AirportTicketBookingSystem.Tests.RepositoryTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::CC2D7075-F6D8-47C9-9F90-2AEDE2B63E9B::net9.0::AirportTicketBookingSystem.Tests.Services.BookingServiceTests.GetAllBookingsAsync_ShouldReturnSuccessfulResult&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::CC2D7075-F6D8-47C9-9F90-2AEDE2B63E9B::net9.0::AirportTicketBookingSystem.Tests.Services.BookingServiceTests.AddBookingAsync_WhenBookingDoesNotExists_ShouldReturnSuccessfulResult&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::CC2D7075-F6D8-47C9-9F90-2AEDE2B63E9B::net9.0::AirportTicketBookingSystem.Tests.Services.BookingServiceTests.AddBookingAsync_WhenSameBookingExists_ShouldReturnFailureResult&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::CC2D7075-F6D8-47C9-9F90-2AEDE2B63E9B::net9.0::AirportTicketBookingSystem.Tests.Services.BookingServiceTests.AddBookingAsync_WhenBookingDateIsInvalid_ShouldReturnFailureResult&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::CC2D7075-F6D8-47C9-9F90-2AEDE2B63E9B::net9.0::AirportTicketBookingSystem.Tests.Services.BookingServiceTests.CancelBookingAsync_WhenBookingDoesNotExists_ShouldReturnFailureResult&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::CC2D7075-F6D8-47C9-9F90-2AEDE2B63E9B::net9.0::AirportTicketBookingSystem.Tests.Services.BookingServiceTests.CancelBookingAsync_WhenBookingExists_ShouldReturnSuccessfulResult&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::CC2D7075-F6D8-47C9-9F90-2AEDE2B63E9B::net9.0::AirportTicketBookingSystem.Tests.Services.BookingServiceTests.ModifyBookingAsync_WhenBookingDoesNotExists_ShouldReturnFailureResult&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::CC2D7075-F6D8-47C9-9F90-2AEDE2B63E9B::net9.0::AirportTicketBookingSystem.Tests.Services.BookingServiceTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
