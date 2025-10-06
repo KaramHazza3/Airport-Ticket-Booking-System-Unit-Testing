@@ -25,7 +25,7 @@ public class AuthServiceTests
     }
     
     [Fact]
-    public async Task RegisterAsync_WhenUserDoesNotExists_ShouldReturnSuccessfulResult()
+    public async Task RegisterAsync_ShouldReturnSuccessfulResult_WhenUserDoesNotExists()
     {
         // Arrange
         var user = _fixture.Create<User>();
@@ -35,11 +35,16 @@ public class AuthServiceTests
         
         // Assert
         Assert.True(result.IsSuccess);
-        _userServiceMock.Verify(x => x.AddUserAsync(It.IsAny<User>()), Times.Once);
+        _userServiceMock.Verify(x => x.AddUserAsync(It.Is<User>(u => 
+            u.Name == user.Name &&
+            u.Email == user.Email &&
+            u.Password == user.Password &&
+            u.Role == user.Role
+        )), Times.Once);
     }
     
     [Fact]
-    public async Task RegisterAsync_WhenUserAlreadyExists_ShouldReturnFailureResult()
+    public async Task RegisterAsync_ShouldReturnFailureResult_WhenUserAlreadyExists()
     {
         // Arrange
         var user = _fixture.Create<User>();
@@ -56,7 +61,7 @@ public class AuthServiceTests
     }
     
     [Fact]
-    public async Task LoginAsync_WhenUserExists_ShouldReturnSuccessfulResult()
+    public async Task LoginAsync_ShouldReturnSuccessfulResult_WhenUserExists()
     {
         // Arrange
         var user = _fixture.Create<User>();
@@ -77,7 +82,7 @@ public class AuthServiceTests
     }
     
     [Fact]
-    public async Task LoginAsync_WhenUserDoesNotExists_ShouldReturnFailureResult()
+    public async Task LoginAsync_ShouldReturnFailureResult_WhenUserDoesNotExists()
     {
         // Arrange
         var user = _fixture.Create<User>();

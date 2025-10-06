@@ -65,7 +65,7 @@ public class BookingService : IBookingService<Guid>
         {
             return BookingErrors.NotFound;
         }
-        var index = bookings.FindIndex(item => item.Id.Equals(booking.Id));
+        var index = bookings.FindIndex(item => item.Id.Equals(id));
         bookings[index] = booking;
         await this._repository.WriteAsync(bookings);
         _bookings.Clear();

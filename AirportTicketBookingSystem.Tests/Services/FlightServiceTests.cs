@@ -1,9 +1,8 @@
 ﻿using AirportTicketBookingSystem.Common.ResultErrors;
 using AirportTicketBookingSystem.Models;
-using AirportTicketBookingSystem.Models.Enums;
 using AirportTicketBookingSystem.Repositories;
 using AirportTicketBookingSystem.Services.FlightService;
-using AirportTicketBookingSystem.Tests.Customizations;
+using AirportTicketBookingSystem.Tests.Helpers;
 using AutoFixture;
 using Moq;
 
@@ -11,205 +10,169 @@ namespace AirportTicketBookingSystem.Tests.Services;
 
 public class FlightServiceTests
 {
-    private readonly IFixture _fixture;
     private readonly Mock<IRepository> _repositoryMock;
     private readonly IFlightService<Guid> _flightService;
-    private readonly Flight _flight;
-    private readonly List<Flight> _flights;
-    
+    private readonly TestDataBuilder _builder;
+
     public FlightServiceTests()
     {
-        _fixture = new Fixture();
-        _fixture.Customize(new FlightCustomization());
-        _flight = _fixture.Create<Flight>();
-        _flights = new List<Flight>()
-        {
-            _flight
-        };
+        var fixture = new Fixture();
         _repositoryMock = new Mock<IRepository>();
-        _repositoryMock.Setup(x => x.ReadAsync<Flight>()).ReturnsAsync(_flights);
-        _repositoryMock.Setup(x => x.WriteAsync(It.IsAny<List<Flight>>())).Returns(Task.CompletedTask);
         _flightService = new FlightService(_repositoryMock.Object);
+        _repositoryMock.Setup(x => x.ReadAsync<Flight>()).ReturnsAsync(new List<Flight>());
+        _builder = new TestDataBuilder(fixture);
     }
 
     [Fact]
     public async Task GetAllFlightsAsync_ShouldReturnSuccessfulResult()
     {
-        // Arrange
-        
-        // Act
+        var flight = _builder.BuildFlight();
+        var flights = new List<Flight> { flight };
+        _repositoryMock.Setup(x => x.ReadAsync<Flight>()).ReturnsAsync(flights);
+
         var result = await _flightService.GetAllFlightsAsync();
 
-        // Assert
         Assert.True(result.IsSuccess);
-        Assert.Equal(result.Value, _flights);
+        Assert.Equal(flights, result.Value);
     }
-    
+
     [Fact]
-    public async Task AddFlightAsync_WhenFlightDoesNotExist_ShouldReturnSuccessfulResult()
+    public async Task AddFlightAsync_ShouldReturnSuccessfulResult_WhenFlightDoesNotExist()
     {
-        // Arrange
+        var flight = _builder.BuildFlight();
         _repositoryMock.Setup(x => x.ReadAsync<Flight>()).ReturnsAsync(new List<Flight>());
 
-        // Act
-        var result = await _flightService.AddFlightAsync(_flight);
-        
-        // Assert
-        Assert.True(result.IsSuccess);
-        Assert.Equal(result.Value, _flight);
-    }
-    
-    [Fact]
-    public async Task AddFlightAsync_WhenFlightExists_ShouldReturnFailureResult()
-    {
-        // Arrange
+        var result = await _flightService.AddFlightAsync(flight);
 
-        // Act
-        var result = await _flightService.AddFlightAsync(_flight);
-        
-        // Assert
+        Assert.True(result.IsSuccess);
+        Assert.Equal(flight, result.Value);
+    }
+
+    [Fact]
+    public async Task AddFlightAsync_ShouldReturnFailureResult_WhenFlightExists()
+    {
+        var flight = _builder.BuildFlight();
+        _repositoryMock.Setup(x => x.ReadAsync<Flight>()).ReturnsAsync(new List<Flight> { flight });
+
+        var result = await _flightService.AddFlightAsync(flight);
+
         Assert.True(result.IsFailure);
         Assert.Equal(result.Error, FlightErrors.AlreadyExists);
     }
-    
+
     [Fact]
-    public async Task AddFlightAsync_WhenFlightDepartureDateIsNotInFuture_ShouldReturnFailureResult()
+    public async Task AddFlightAsync_ShouldReturnFailureResult_WhenFlightDepartureDateIsNotInFuture()
     {
-        // Arrange
+        var flight = _builder.BuildFlight(daysFromNow: -2);
         _repositoryMock.Setup(x => x.ReadAsync<Flight>()).ReturnsAsync(new List<Flight>());
 
-        _flight.DepartureDate = DateTime.UtcNow.AddDays(-2);
-        
-        // Act
-        var result = await _flightService.AddFlightAsync(_flight);
-        
-        // Assert
+        var result = await _flightService.AddFlightAsync(flight);
+
         Assert.True(result.IsFailure);
         Assert.Equal(result.Error, FlightErrors.NotValid);
     }
-    
-    [Fact]
-    public async Task DeleteFlightAsync_WhenFlightExists_ShouldReturnSuccessfulResult()
-    {
-        // Arrange
 
-        // Act
-        var result = await _flightService.DeleteFlightAsync(_flight.Id);
-        
-        // Assert
+    [Fact]
+    public async Task DeleteFlightAsync_ShouldReturnSuccessfulResult_WhenFlightExists()
+    {
+        var flight = _builder.BuildFlight();
+        _repositoryMock.Setup(x => x.ReadAsync<Flight>()).ReturnsAsync(new List<Flight> { flight });
+
+        var result = await _flightService.DeleteFlightAsync(flight.Id);
+
         Assert.True(result.IsSuccess);
     }
-    
-    [Fact]
-    public async Task DeleteFlightAsync_WhenFlightDoesNotExists_ShouldReturnFailureResult()
-    {
-        // Arrange
 
-        // Act
+    [Fact]
+    public async Task DeleteFlightAsync_ShouldReturnFailureResult_WhenFlightDoesNotExists()
+    {
         var result = await _flightService.DeleteFlightAsync(Guid.NewGuid());
-        
-        // Assert
+
         Assert.True(result.IsFailure);
         Assert.Equal(result.Error, FlightErrors.NotFound);
     }
-    
-    [Fact]
-    public async Task ModifyFlightAsync_WhenFlightExists_ShouldReturnSuccessfulResult()
-    {
-        // Arrange
-        var newFlight = _flight;
-        newFlight.BasePrice = 200m;
-        
-        // Act
-        var result = await _flightService.ModifyFlightAsync(_flight.Id, newFlight);
-        
-        // Assert
-        Assert.True(result.IsSuccess);
-        Assert.Equal(200, result.Value.BasePrice);
-        Assert.Equal(result.Value, _flight);
-    }
-    
-    [Fact]
-    public async Task ModifyFlightAsync_WhenFlightDoesNotExists_ShouldReturnFailureResult()
-    {
-        // Arrange
 
-        // Act
-        var result = await _flightService.ModifyFlightAsync(Guid.NewGuid(), _flight);
-        
-        // Assert
+    [Fact]
+    public async Task ModifyFlightAsync_ShouldReturnSuccessfulResult_WhenFlightExists()
+    {
+        var flight = _builder.BuildFlight();
+        _repositoryMock.Setup(x => x.ReadAsync<Flight>()).ReturnsAsync(new List<Flight> { flight });
+        var modifiedFlight = _builder.BuildFlight(basePrice: 200m);
+
+        var result = await _flightService.ModifyFlightAsync(flight.Id, modifiedFlight);
+
+        Assert.True(result.IsSuccess);
+        Assert.Equal(200m, result.Value.BasePrice);
+        Assert.Equal(modifiedFlight, result.Value);
+    }
+
+    [Fact]
+    public async Task ModifyFlightAsync_ShouldReturnFailureResult_WhenFlightDoesNotExists()
+    {
+        var flight = _builder.BuildFlight();
+
+        var result = await _flightService.ModifyFlightAsync(Guid.NewGuid(), flight);
+
         Assert.True(result.IsFailure);
         Assert.Equal(result.Error, FlightErrors.NotFound);
     }
-    
-    [Fact]
-    public async Task GetFlightById_WhenFlightIdExists_ShouldReturnSuccessfulResult()
-    {
-        // Arrange
 
-        // Act
-        var result = await _flightService.GetFlightById(_flight.Id);
-        
-        // Assert
+    [Fact]
+    public async Task GetFlightById_ShouldReturnSuccessfulResult_WhenFlightIdExists()
+    {
+        var flight = _builder.BuildFlight();
+        _repositoryMock.Setup(x => x.ReadAsync<Flight>()).ReturnsAsync(new List<Flight> { flight });
+
+        var result = await _flightService.GetFlightById(flight.Id);
+
         Assert.True(result.IsSuccess);
-        Assert.Equal(result.Value, _flight);
+        Assert.Equal(flight, result.Value);
     }
-    
-    [Fact]
-    public async Task GetFlightById_WhenFlightIdDoesNotExists_ShouldReturnFailureResult()
-    {
-        // Arrange
 
-        // Act
+    [Fact]
+    public async Task GetFlightById_ShouldReturnFailureResult_WhenFlightIdDoesNotExists()
+    {
         var result = await _flightService.GetFlightById(Guid.NewGuid());
-        
-        // Assert
+
         Assert.True(result.IsFailure);
         Assert.Equal(result.Error, FlightErrors.NotFound);
     }
-    
-    [Fact]
-    public async Task SearchFlight_WhenFlightSearchExists_ShouldReturnSuccessfulResult()
-    {
-        // Arrange
 
-        // Act
+    [Fact]
+    public async Task SearchFlight_ShouldReturnSuccessfulResult_WhenFlightSearchExists()
+    {
+        var flight = _builder.BuildFlight();
+        _repositoryMock.Setup(x => x.ReadAsync<Flight>()).ReturnsAsync(new List<Flight> { flight });
+
         var result = await _flightService.SearchFlight(f => f.BasePrice == 100m);
-        
-        // Assert
+
         Assert.True(result.IsSuccess);
         Assert.NotEmpty(result.Value);
     }
-    
-    [Fact]
-    public async Task SearchFlight_WhenFlightSearchDoesNotExists_ShouldReturnFailureResult()
-    {
-        // Arrange
 
-        // Act
+    [Fact]
+    public async Task SearchFlight_ShouldReturnFailureResult_WhenFlightSearchDoesNotExists()
+    {
+        var flight = _builder.BuildFlight();
+        _repositoryMock.Setup(x => x.ReadAsync<Flight>()).ReturnsAsync(new List<Flight> { flight });
+
         var result = await _flightService.SearchFlight(f => f.BasePrice == 200m);
-        
-        // Assert
+
         Assert.True(result.IsSuccess);
         Assert.Empty(result.Value);
     }
-    
+
     [Fact]
-    public async Task SearchFlight_WhenFlightSearchContainsAnyNullPredictions_ShouldThrowArgumentException()
+    public async Task SearchFlight_ShouldThrowArgumentException_WhenFlightSearchContainsAnyNullPredictions()
     {
-        // Arrange
         Func<Flight, bool>?[] predicates = { f => f.BasePrice == 100m, null };
-        
-        // Act & Assert
+
         await Assert.ThrowsAsync<ArgumentException>(async () => await _flightService.SearchFlight(predicates));
     }
-    
+
     [Fact]
-    public async Task SearchFlight_WhenFlightSearchContainsNullPredictions_ShouldThrowArgumentException()
+    public async Task SearchFlight_ShouldThrowArgumentException_WhenFlightSearchContainsNullPredictions()
     {
-        // Arrange
-        
-        // Act & Assert
         await Assert.ThrowsAsync<ArgumentNullException>(async () => await _flightService.SearchFlight(null));
     }
 }

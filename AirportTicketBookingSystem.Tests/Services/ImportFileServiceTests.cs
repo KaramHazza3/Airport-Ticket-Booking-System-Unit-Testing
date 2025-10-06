@@ -3,7 +3,7 @@ using AirportTicketBookingSystem.Models;
 using AirportTicketBookingSystem.Models.DTOs;
 using AirportTicketBookingSystem.Services.FlightService;
 using AirportTicketBookingSystem.Services.ImportFileService;
-using AirportTicketBookingSystem.Tests.Customizations;
+using AirportTicketBookingSystem.Tests.Helpers;
 using AirportTicketBookingSystem.Wrappers;
 using AutoFixture;
 using Moq;
@@ -12,7 +12,6 @@ namespace AirportTicketBookingSystem.Tests.Services;
 
 public class ImportFileServiceTests
 {
-    private readonly IFixture _fixture;
     private readonly Mock<IFlightService<Guid>> _flightServiceMock;
     private readonly Mock<ICSVReader> _csvReaderMock;
     private readonly IFileImportService _fileImportService;
@@ -20,12 +19,13 @@ public class ImportFileServiceTests
     private readonly Func<FlightCsvDto, Flight> _mapper;
     private readonly Func<FlightCsvDto, int, List<CsvValidationError>> _validator;
     private readonly string _filePath;
+    private readonly TestDataBuilder _builder;
     
     public ImportFileServiceTests()
     {
-        _fixture = new Fixture();
-        _fixture.Customize(new FlightCustomization());
-        _flight = _fixture.Create<Flight>();
+        var fixture = new Fixture();
+        _builder = new TestDataBuilder(fixture);
+        _flight = _builder.BuildFlight();
         _csvReaderMock = new Mock<ICSVReader>();
         _fileImportService = new ImportCsvFileService(_csvReaderMock.Object);
         _csvReaderMock.Setup(x => x.Read(It.IsAny<string>(),
@@ -37,9 +37,9 @@ public class ImportFileServiceTests
             }, new List<CsvValidationError>()));
         _flightServiceMock = new Mock<IFlightService<Guid>>();
         _flightServiceMock.Setup(x => x.AddAsync(It.IsAny<Flight>())).ReturnsAsync(_flight);
-        _filePath = _fixture.Create<string>();
-        _mapper = _fixture.Create<Func<FlightCsvDto, Flight>>();
-        _validator = _fixture.Create<Func<FlightCsvDto, int, List<CsvValidationError>>>();
+        _filePath = fixture.Create<string>();
+        _mapper = dto => _builder.BuildFlight();
+        _validator = (dto, lineNumber) => new List<CsvValidationError>();
     }
 
     [Fact]

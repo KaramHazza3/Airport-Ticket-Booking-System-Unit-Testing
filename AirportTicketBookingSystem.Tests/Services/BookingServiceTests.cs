@@ -1,8 +1,9 @@
 ﻿using AirportTicketBookingSystem.Common.ResultErrors;
 using AirportTicketBookingSystem.Models;
+using AirportTicketBookingSystem.Models.Enums;
 using AirportTicketBookingSystem.Repositories;
 using AirportTicketBookingSystem.Services.BookingService;
-using AirportTicketBookingSystem.Tests.Customizations;
+using AirportTicketBookingSystem.Tests.Helpers;
 using AutoFixture;
 using Moq;
 
@@ -10,100 +11,100 @@ namespace AirportTicketBookingSystem.Tests.Services;
 
 public class BookingServiceTests
 {
-    private readonly IFixture _fixture;
     private readonly Mock<IRepository> _repositoryMock;
     private readonly IBookingService<Guid> _bookingService;
-    private readonly Booking _booking;
-    private readonly List<Booking> _bookings;
-    
+    private readonly TestDataBuilder _builder;
+
     public BookingServiceTests()
     {
-        _fixture = new Fixture();
-        _fixture.Customize(new FlightCustomization());
-        _fixture.Customize(new BookingCustomization());
+        var fixture = new Fixture();
         _repositoryMock = new Mock<IRepository>();
         _bookingService = new BookingService(_repositoryMock.Object);
-        _booking = _fixture.Create<Booking>();
-        _bookings = new List<Booking>()
-        {
-            _booking
-        };
-        _repositoryMock.Setup(x => x.ReadAsync<Booking>()).ReturnsAsync(_bookings);
-        _repositoryMock.Setup(x => x.WriteAsync(It.IsAny<List<Booking>>())).Returns(Task.CompletedTask);
+        _repositoryMock.Setup(x => x.ReadAsync<Booking>()).ReturnsAsync(new List<Booking>());
+        _builder = new TestDataBuilder(fixture);
     }
-    
+
     [Fact]
     public async Task GetAllBookingsAsync_ShouldReturnSuccessfulResult()
     {
-        // Arrange 
-        
+        // Arrange
+        var booking = _builder.BuildBooking();
+        var bookings = new List<Booking> { booking };
+        _repositoryMock.Setup(r => r.ReadAsync<Booking>()).ReturnsAsync(bookings);
+
         // Act
         var result = await _bookingService.GetAllBookingsAsync();
 
         // Assert
         Assert.True(result.IsSuccess);
-        Assert.Equal(result.Value, _bookings);
+        Assert.Equal(bookings, result.Value);
     }
-    
+
     [Fact]
-    public async Task AddBookingAsync_WhenBookingDoesNotExists_ShouldReturnSuccessfulResult()
+    public async Task AddBookingAsync_ShouldReturnSuccessfulResult_WhenBookingDoesNotExists()
     {
-        // Arrange 
-        _repositoryMock.Setup(x => x.ReadAsync<Booking>()).ReturnsAsync(new List<Booking>());
-        
+        // Arrange
+        var booking = _builder.BuildBooking();
+        _repositoryMock.Setup(r => r.ReadAsync<Booking>()).ReturnsAsync(new List<Booking>());
+
         // Act
-        var result = await _bookingService.AddBookingAsync(_booking);
+        var result = await _bookingService.AddBookingAsync(booking);
 
         // Assert
         Assert.True(result.IsSuccess);
-        Assert.Equal(result.Value, _booking);
+        Assert.Equal(booking, result.Value);
     }
-    
+
     [Fact]
-    public async Task AddBookingAsync_WhenSameBookingExists_ShouldReturnFailureResult()
+    public async Task AddBookingAsync_ShouldReturnFailureResult_WhenSameBookingExists()
     {
-        // Arrange 
-        
+        // Arrange
+        var booking = _builder.BuildBooking();
+        _repositoryMock.Setup(r => r.ReadAsync<Booking>()).ReturnsAsync(new List<Booking> { booking });
+
         // Act
-        var result = await _bookingService.AddBookingAsync(_booking);
+        var result = await _bookingService.AddBookingAsync(booking);
 
         // Assert
         Assert.True(result.IsFailure);
         Assert.Equal(result.Error, BookingErrors.AlreadyExists);
     }
-    
+
     [Fact]
-    public async Task AddBookingAsync_WhenBookingDateIsNotInFuture_ShouldReturnFailureResult()
+    public async Task AddBookingAsync_ShouldReturnFailureResult_WhenBookingDateIsNotInFuture()
     {
-        // Arrange 
-        _repositoryMock.Setup(x => x.ReadAsync<Booking>()).ReturnsAsync(new List<Booking>());
-        _booking.BookingDate = DateTime.UtcNow.AddDays(-2);
-        
+        // Arrange
+        var booking = _builder.BuildBooking(bookingDate: DateTime.UtcNow.AddDays(-2));
+        _repositoryMock.Setup(r => r.ReadAsync<Booking>()).ReturnsAsync(new List<Booking>());
+
         // Act
-        var result = await _bookingService.AddBookingAsync(_booking);
+        var result = await _bookingService.AddBookingAsync(booking);
 
         // Assert
         Assert.True(result.IsFailure);
         Assert.Equal(result.Error, BookingErrors.NotValid);
     }
-    
+
     [Fact]
-    public async Task CancelBookingAsync_WhenBookingExists_ShouldReturnSuccessfulResult()
+    public async Task CancelBookingAsync_ShouldReturnSuccessfulResult_WhenBookingExists()
     {
-        // Arrange 
-        
+        // Arrange
+        var booking = _builder.BuildBooking();
+        _repositoryMock.Setup(r => r.ReadAsync<Booking>()).ReturnsAsync(new List<Booking> { booking });
+
         // Act
-        var result = await _bookingService.CancelBookingAsync(_booking.Id);
+        var result = await _bookingService.CancelBookingAsync(booking.Id);
 
         // Assert
         Assert.True(result.IsSuccess);
     }
-    
+
     [Fact]
-    public async Task CancelBookingAsync_WhenBookingDoesNotExists_ShouldReturnFailureResult()
+    public async Task CancelBookingAsync_ShouldReturnFailureResult_WhenBookingDoesNotExists()
     {
-        // Arrange 
-        
+        // Arrange
+        _repositoryMock.Setup(r => r.ReadAsync<Booking>()).ReturnsAsync(new List<Booking>());
+
         // Act
         var result = await _bookingService.CancelBookingAsync(Guid.NewGuid());
 
@@ -111,77 +112,82 @@ public class BookingServiceTests
         Assert.True(result.IsFailure);
         Assert.Equal(result.Error, BookingErrors.NotFound);
     }
-    
+
     [Fact]
-    public async Task ModifyBookingAsync_WhenBookingExists_ShouldReturnSuccessfulResult()
+    public async Task ModifyBookingAsync_ShouldReturnSuccessfulResult_WhenBookingExists()
     {
-        // Arrange 
-        var newBooking = _booking;
-        newBooking.Price = 500m;
+        // Arrange
+        var booking = _builder.BuildBooking();
+        _repositoryMock.Setup(r => r.ReadAsync<Booking>()).ReturnsAsync(new List<Booking> { booking });
+        var modifiedBooking = _builder.BuildBooking(price: 500m);
+
         // Act
-        var result = await _bookingService.ModifyBookingAsync(_booking.Id, newBooking);
+        var result = await _bookingService.ModifyBookingAsync(booking.Id, modifiedBooking);
 
         // Assert
         Assert.True(result.IsSuccess);
-        Assert.Equal(result.Value, newBooking);
+        Assert.Equal(modifiedBooking, result.Value);
     }
-    
+
     [Fact]
-    public async Task ModifyBookingAsync_WhenBookingDoesNotExists_ShouldReturnFailureResult()
+    public async Task ModifyBookingAsync_ShouldReturnFailureResult_WhenBookingDoesNotExists()
     {
-        // Arrange 
-        var newBooking = _booking;
-        newBooking.Price = 500m;
+        // Arrange
+        var booking = _builder.BuildBooking(price: 500m);
+        _repositoryMock.Setup(r => r.ReadAsync<Booking>()).ReturnsAsync(new List<Booking>());
+
         // Act
-        var result = await _bookingService.ModifyBookingAsync(Guid.NewGuid(), newBooking);
+        var result = await _bookingService.ModifyBookingAsync(Guid.NewGuid(), booking);
 
         // Assert
         Assert.True(result.IsFailure);
         Assert.Equal(result.Error, BookingErrors.NotFound);
     }
-    
+
     [Fact]
-    public async Task FilterBooking_WhenTheFilterExists_ShouldReturnSuccessfulResult()
+    public async Task FilterBooking_ShouldReturnSuccessfulResult_WhenTheFilterExists()
     {
         // Arrange
+        var booking = _builder.BuildBooking();
+        _repositoryMock.Setup(r => r.ReadAsync<Booking>()).ReturnsAsync(new List<Booking> { booking });
 
         // Act
         var result = await _bookingService.FilterAsync(b => b.Price == 100m);
-        
+
         // Assert
         Assert.True(result.IsSuccess);
         Assert.NotEmpty(result.Value);
     }
-    
+
     [Fact]
-    public async Task FilterBooking_WhenFilterBookingDoesNotExists_ShouldReturnFailureResult()
+    public async Task FilterBooking_ShouldReturnFailureResult_WhenFilterBookingDoesNotExists()
     {
         // Arrange
+        _repositoryMock.Setup(r => r.ReadAsync<Booking>()).ReturnsAsync(new List<Booking>());
 
         // Act
         var result = await _bookingService.FilterAsync(b => b.Price == 200m);
-        
+
         // Assert
         Assert.True(result.IsSuccess);
         Assert.Empty(result.Value);
     }
-    
+
     [Fact]
-    public async Task FilterBooking_WhenFilterBookingContainsAnyNullPredictions_ShouldThrowArgumentException()
+    public async Task FilterBooking_ShouldThrowArgumentException_WhenFilterBookingContainsAnyNullPredictions()
     {
         // Arrange
-        Func<Booking, bool>?[] predicates = { f => f.Price == 100m, null };
-        
+        Func<Booking, bool>?[] predicates = { b => b.Price == 100m, null };
+
         // Act & Assert
         await Assert.ThrowsAsync<ArgumentException>(async () => await _bookingService.FilterAsync(predicates));
     }
-    
+
     [Fact]
-    public async Task FilterBooking_WhenFilterBookingContainsNullPredictions_ShouldThrowArgumentException()
+    public async Task FilterBooking_ShouldThrowArgumentException_WhenFilterBookingContainsNullPredictions()
     {
-        // Arrange
-        
         // Act & Assert
         await Assert.ThrowsAsync<ArgumentNullException>(async () => await _bookingService.FilterAsync(null));
     }
+
 }
